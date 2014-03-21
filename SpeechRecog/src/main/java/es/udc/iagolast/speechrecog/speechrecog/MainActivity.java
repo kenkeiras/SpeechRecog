@@ -1,6 +1,7 @@
 package es.udc.iagolast.speechrecog.speechrecog;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -20,6 +21,7 @@ public class MainActivity extends Activity implements OnInitListener {
     private TextView textView;
     private Button recordButton;
     private Button listenButton;
+    private Button readNotificationsButton;
     private SpeechRecognizer speechRecognizer;
     private TextToSpeech textToSpeech;
 
@@ -29,6 +31,7 @@ public class MainActivity extends Activity implements OnInitListener {
     private void loadUI() {
         recordButton = (Button) findViewById(R.id.button);
         listenButton = (Button) findViewById(R.id.button2);
+        readNotificationsButton = (Button) findViewById(R.id.button3);
         textView = (TextView) findViewById(R.id.textView);
     }
 
@@ -38,6 +41,7 @@ public class MainActivity extends Activity implements OnInitListener {
     private void setListeners() {
         recordButton.setOnClickListener(onRecordClick);
         listenButton.setOnClickListener(onListenClick);
+        readNotificationsButton.setOnClickListener(onReadClick);
     }
 
     /**
@@ -85,6 +89,19 @@ public class MainActivity extends Activity implements OnInitListener {
     OnClickListener onListenClick = new OnClickListener() {
         public void onClick(View v) {
             textToSpeech.speak(textView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+        }
+    };
+
+    /**
+     * When notification reading service is started.
+     */
+    OnClickListener onReadClick = new OnClickListener() {
+        public void onClick(View v){
+            Context c = getApplicationContext();
+            Intent i = new Intent(c, NotificationListener.class);
+            getApplicationContext().startService(i);
+            startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+
         }
     };
 
