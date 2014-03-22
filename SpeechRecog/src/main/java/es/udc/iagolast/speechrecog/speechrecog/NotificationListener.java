@@ -6,14 +6,18 @@ import android.widget.Toast;
 import android.service.notification.StatusBarNotification;
 import android.service.notification.NotificationListenerService;
 
-public class NotificationListener extends NotificationListenerService implements
-        TextToSpeech.OnInitListener {
+public class NotificationListener extends NotificationListenerService
+        implements TextToSpeech.OnInitListener {
 
+    TextToSpeech textToSpeech;
 
+    @Override
+    public void onCreate(){
+        textToSpeech = new TextToSpeech(this, this);
+    }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
-        TextToSpeech textToSpeech = new TextToSpeech(this, this);
         textToSpeech.speak("New notification", TextToSpeech.QUEUE_FLUSH, null);
     }
 
