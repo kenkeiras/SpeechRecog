@@ -18,7 +18,8 @@ public class NotificationListener extends NotificationListenerService
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
-        textToSpeech.speak("New notification", TextToSpeech.QUEUE_FLUSH, null);
+        String text = sbn.getNotification().tickerText.toString();
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     @Override
