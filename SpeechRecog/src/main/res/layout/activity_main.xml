@@ -23,14 +23,27 @@
             android:text="@string/Listen"
             android:id="@+id/button2"
             android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ReadNotifications"
+            android:text="@string/notification_reading_settings"
             android:id="@+id/button3"
             android:layout_weight="1" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/read_notifications"
+            android:id="@+id/notification_reading_switch" />
     </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"

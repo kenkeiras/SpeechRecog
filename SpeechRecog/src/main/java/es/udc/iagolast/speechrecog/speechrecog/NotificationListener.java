@@ -10,6 +10,7 @@ public class NotificationListener extends NotificationListenerService
         implements TextToSpeech.OnInitListener {
 
     TextToSpeech textToSpeech;
+    static boolean reading = false;
 
     @Override
     public void onCreate(){
@@ -18,8 +19,10 @@ public class NotificationListener extends NotificationListenerService
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
-        String text = sbn.getNotification().tickerText.toString();
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        if (reading){
+            String text = sbn.getNotification().tickerText.toString();
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 
     @Override
@@ -27,4 +30,12 @@ public class NotificationListener extends NotificationListenerService
 
     @Override
     public void onInit(int i) {}
+
+    public static void setReading(boolean reading){
+        NotificationListener.reading = reading;
+    }
+
+    public static boolean getReading(){
+        return reading;
+    }
 }

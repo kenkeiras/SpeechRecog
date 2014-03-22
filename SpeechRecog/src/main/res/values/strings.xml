@@ -9,5 +9,6 @@
     <string name="ReadNotifications">Read notifications</string>
 
     <string name="notification_reading_service_name">Notification reading</string>
+    <string name="notification_reading_settings">Notification reading settings</string><string name="read_notifications">Read notifications</string>
 
 </resources>

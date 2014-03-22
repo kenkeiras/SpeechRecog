@@ -11,10 +11,14 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import es.udc.iagolast.speechrecog.speechrecog.speechListener.Listener;
 import es.udc.iagolast.speechrecog.speechrecog.speechListener.StupidCallback;
+
+import static android.widget.CompoundButton.*;
 
 public class MainActivity extends Activity implements OnInitListener {
 
@@ -22,6 +26,7 @@ public class MainActivity extends Activity implements OnInitListener {
     private Button recordButton;
     private Button listenButton;
     private Button readNotificationsButton;
+    private Switch notificationReadingSwitch;
     private SpeechRecognizer speechRecognizer;
     private TextToSpeech textToSpeech;
 
@@ -32,6 +37,7 @@ public class MainActivity extends Activity implements OnInitListener {
         recordButton = (Button) findViewById(R.id.button);
         listenButton = (Button) findViewById(R.id.button2);
         readNotificationsButton = (Button) findViewById(R.id.button3);
+        notificationReadingSwitch = (Switch) findViewById(R.id.notification_reading_switch);
         textView = (TextView) findViewById(R.id.textView);
     }
 
@@ -42,6 +48,9 @@ public class MainActivity extends Activity implements OnInitListener {
         recordButton.setOnClickListener(onRecordClick);
         listenButton.setOnClickListener(onListenClick);
         readNotificationsButton.setOnClickListener(onReadClick);
+
+        notificationReadingSwitch.setOnCheckedChangeListener(onSwitchRead);
+        notificationReadingSwitch.setChecked(NotificationListener.getReading());
     }
 
     /**
@@ -93,15 +102,21 @@ public class MainActivity extends Activity implements OnInitListener {
     };
 
     /**
-     * When notification reading service is started.
+     * Show notification reading permissions.
      */
     OnClickListener onReadClick = new OnClickListener() {
         public void onClick(View v){
-            Context c = getApplicationContext();
-            Intent i = new Intent(c, NotificationListener.class);
-            getApplicationContext().startService(i);
             startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+        }
+    };
 
+    /**
+     * Toggle the notification reading service.
+     */
+    OnCheckedChangeListener onSwitchRead = new OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean read) {
+            NotificationListener.setReading(read);
         }
     };
 
