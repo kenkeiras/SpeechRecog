@@ -34,7 +34,7 @@ public class VtMain implements Voicetivity {
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             service.startActivity(intent);
-        } else if (speech.matches("buscar .*") || speech.matches("busca .*")) {
+        } else if (speech.matches("buscar? .*")) {
             String query = speech.substring(speech.indexOf(" "));
             Log.d("Buscando:", query);
             Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
