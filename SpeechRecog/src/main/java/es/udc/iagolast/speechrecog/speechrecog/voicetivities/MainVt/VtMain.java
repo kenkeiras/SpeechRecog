@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
 
 import es.udc.iagolast.speechrecog.speechrecog.SpeechRecognitionService;
 import es.udc.iagolast.speechrecog.speechrecog.voicetivities.Voicetivity;
@@ -40,16 +41,23 @@ public class VtMain implements Voicetivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(SearchManager.QUERY, query);
             service.startActivity(intent);
-        } else if (speech.matches("avísame en .* minutos")) {
-            String minutesString = speech.substring(speech.indexOf("en ") + 3, speech.indexOf("minutos") - 1);
+        } else if (speech.matches("avísame en ((\\d+)*|un) minutos?")) {
+            String minutesString = speech.substring(speech.indexOf("en ") + 3, speech.indexOf("minuto") - 1);
             Log.d("Recordatorio:", minutesString);
-            int minutes = Integer.valueOf(minutesString);
-            Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
-                    .putExtra(AlarmClock.EXTRA_MESSAGE, "Aviso")
-                    .putExtra(AlarmClock.EXTRA_HOUR, Calendar.getInstance().getTime().getHours())
-                    .putExtra(AlarmClock.EXTRA_MINUTES, Calendar.getInstance().getTime().getMinutes() + minutes);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            service.startActivity(intent);
+            int minutes;
+            try {
+                if (minutesString.equals("un")) {
+                    minutes = 1;
+                } else {
+                    minutes = Integer.valueOf(minutesString);
+                }
+                Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
+                        .putExtra(AlarmClock.EXTRA_MESSAGE, "Aviso")
+                        .putExtra(AlarmClock.EXTRA_HOUR, Calendar.getInstance().getTime().getHours())
+                        .putExtra(AlarmClock.EXTRA_MINUTES, Calendar.getInstance().getTime().getMinutes() + minutes);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                service.startActivity(intent);
+            } catch (NumberFormatException e) {}
 
         } else if (speech.matches("activar loro")) {
             service.speak("loro");
