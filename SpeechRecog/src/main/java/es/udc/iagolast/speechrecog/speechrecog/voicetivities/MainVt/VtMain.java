@@ -26,11 +26,11 @@ public class VtMain implements Voicetivity {
 
     @Override
     public void processSpeech(String speech) {
-        if (speech.equalsIgnoreCase("sacar foto")) {
+        if (speech.equalsIgnoreCase("sacar? fotos?")) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             service.startActivity(intent);
-        } else if (speech.equalsIgnoreCase("grabar vídeo")) {
+        } else if (speech.equalsIgnoreCase("grabar? vídeo")) {
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             service.startActivity(intent);
@@ -59,7 +59,7 @@ public class VtMain implements Voicetivity {
                 service.startActivity(intent);
             } catch (NumberFormatException e) {}
 
-        } else if (speech.matches("activar loro")) {
+        } else if (speech.matches("activar? loro")) {
             service.speak("loro");
             service.setCurrentVoicetivity(VoicetivityManager.getInstance(service).getVoicetivity("Parrot"));
         } else if (speech.matches("correo")) {
